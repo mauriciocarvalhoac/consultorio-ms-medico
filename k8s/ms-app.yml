@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consultorio-ms-medico
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: consultorio-ms-medico
+  template:
+    metadata:
+      labels:
+        app: consultorio-ms-medico
+    spec:
+      containers:
+        - name: consultorio-ms-medico
+          image: consultorio-ms-medico
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
