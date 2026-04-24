@@ -70,6 +70,7 @@
     </dependencies>
 
     <build>
+        <finalName>consultorio-ms-medico</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
