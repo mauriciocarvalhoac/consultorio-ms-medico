@@ -1,0 +1,13 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: consultorio-app
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30432 # Porta definida no NodePort do Postgres
+        hostPort: 5432      # Porta no seu computador
+        protocol: TCP
+      - containerPort: 30080 # Porta definida no NodePort do seu JAR
+        hostPort: 8080      # Porta no seu computador
+        protocol: TCP
+  - role: worker

@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: postgres
 spec:
-  serviceName: "postgres"
+  serviceName: "sgbd-host"
   replicas: 1
   selector:
     matchLabels:
@@ -19,6 +19,10 @@ spec:
           ports:
             - containerPort: 5432
           env:
+            - name: POSTGRES_DB
+              value: "db-medico"
+            - name: POSTGRES_USER
+              value: "medico"
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
