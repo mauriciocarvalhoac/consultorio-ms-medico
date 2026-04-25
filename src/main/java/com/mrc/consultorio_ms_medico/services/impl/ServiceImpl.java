@@ -9,6 +9,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ServiceImpl implements MedicoService {
     @Autowired
@@ -16,9 +19,24 @@ public class ServiceImpl implements MedicoService {
 
     @Override
     public MedicoRecord save(MedicoDTO dto) {
+        Medico obj = repository.save(toObj(dto));
+        return new MedicoRecord(obj.getId(), obj.getNome());
+    }
+
+    @Override
+    public List<MedicoDTO> listAll() {
+        return repository.findAll().stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public MedicoDTO toDto(Medico obj) {
+        MedicoDTO dto = new MedicoDTO();
+        BeanUtils.copyProperties(obj, dto);
+        return dto;
+    }
+
+    public Medico toObj(MedicoDTO dto) {
         Medico obj = new Medico();
         BeanUtils.copyProperties(dto, obj);
-        obj = repository.save(obj);
-        return new MedicoRecord(obj.getId(), obj.getNome());
+        return obj;
     }
 }
