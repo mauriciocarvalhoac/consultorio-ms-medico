@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
+  name: database-medico
 spec:
-  serviceName: "sgbd-host"
+  serviceName: "service-medico"
   replicas: 1
   selector:
     matchLabels:
@@ -17,7 +17,7 @@ spec:
         - name: postgres
           image: postgres:15
           ports:
-            - containerPort: 5432
+            - containerPort: 5434
           env:
             - name: POSTGRES_DB
               value: "db-medico"
@@ -26,7 +26,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: secret-medico
                   key: POSTGRES_PASSWORD
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
@@ -34,4 +34,4 @@ spec:
       volumes:
         - name: postgredb
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: medico-pvc
